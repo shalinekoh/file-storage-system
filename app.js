@@ -15,6 +15,8 @@ const db = require("./db/queries");
 const indexRoute = require("./routes/index");
 const dashboardRoute = require("./routes/dashboard");
 
+const auth = require("./utils/checkAuth");
+
 const app = express();
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
@@ -40,7 +42,7 @@ app.use(
 app.use(passport.session());
 initializePassport(passport);
 
-app.use("/dashboard", dashboardRoute);
+app.use("/dashboard", auth.isAuth, dashboardRoute);
 app.use("/", indexRoute);
 
 const PORT = process.env.PORT || 8000;
