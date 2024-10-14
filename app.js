@@ -33,7 +33,7 @@ app.use(
 
 app.get("/", async (req, res) => {
   try {
-    const users = await db.findUsers();
+    const users = await db.findUser();
     res.send(`<p>${JSON.stringify(users)}</p>`);
   } catch (error) {
     res.status(500).send("An error occurred while fetching users.");
