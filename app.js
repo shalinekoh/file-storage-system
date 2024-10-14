@@ -41,14 +41,5 @@ initializePassport(passport);
 
 app.use("/", indexRoute);
 
-app.get("/", async (req, res) => {
-  try {
-    const users = await db.findUser();
-    res.send(`<p>${JSON.stringify(users)}</p>`);
-  } catch (error) {
-    res.status(500).send("An error occurred while fetching users.");
-  }
-});
-
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server listening on ${PORT}`));

@@ -1,3 +1,4 @@
+const passport = require("passport");
 const db = require("../db/queries");
 
 const indexGet = (req, res) => {
@@ -23,7 +24,7 @@ const signUpPost = async (req, res) => {
       res.redirect("/login");
     } else {
       console.log("User creation failed");
-      res.redirect("signup");
+      res.redirect("/signup");
     }
   } catch (error) {
     console.log(error);
@@ -31,9 +32,28 @@ const signUpPost = async (req, res) => {
   }
 };
 
-const logInGet = (req, res) => {};
+const logInGet = (req, res) => {
+  res.render("forms/log-in-form");
+};
 
-const logInPost = (req, res) => {};
+const logInPost = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      //TODO pass in error message
+      return res.render("forms/log-in-form");
+    }
+
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/dashboard");
+    });
+  })(req, res, next);
+};
 
 const logOutGet = (req, res) => {};
 
@@ -41,7 +61,7 @@ module.exports = {
   indexGet,
   signUpGet,
   signUpPost,
-  //   logInGet,
-  //   logInPost,
+  logInGet,
+  logInPost,
   //   logOutGet,
 };
