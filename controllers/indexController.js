@@ -43,8 +43,9 @@ const logInPost = (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      //TODO pass in error message
-      return res.render("forms/log-in-form");
+      return res.render("forms/log-in-form", {
+        errors: [{ msg: "Invalid username or password" }],
+      });
     }
 
     req.logIn(user, (err) => {
