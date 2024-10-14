@@ -1,6 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const prisma = new PrismaClient();
 
@@ -30,9 +30,9 @@ const findUserbyID = async (id) => {
 
 const addUser = async (username, password) => {
   try {
-    const user = await findUser(username);
+    const user = await findUserbyName(username);
     if (!user) {
-      const hashedPassword = await bcrypt(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
       return await prisma.user.create({
         data: {
           username: username,

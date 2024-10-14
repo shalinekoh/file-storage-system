@@ -39,7 +39,7 @@ app.use(
 app.use(passport.session());
 initializePassport(passport);
 
-// app.use("/", indexRoute);
+app.use("/", indexRoute);
 
 app.get("/", async (req, res) => {
   try {
