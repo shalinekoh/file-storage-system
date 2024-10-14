@@ -55,7 +55,14 @@ const logInPost = (req, res, next) => {
   })(req, res, next);
 };
 
-const logOutGet = (req, res) => {};
+const logOutGet = (req, res, next) => {
+  req.logOut((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
+  });
+};
 
 module.exports = {
   indexGet,
@@ -63,5 +70,5 @@ module.exports = {
   signUpPost,
   logInGet,
   logInPost,
-  //   logOutGet,
+  logOutGet,
 };
