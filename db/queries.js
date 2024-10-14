@@ -30,17 +30,13 @@ const findUserbyID = async (id) => {
 
 const addUser = async (username, password) => {
   try {
-    const user = await findUserbyName(username);
-    if (!user) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      return await prisma.user.create({
-        data: {
-          username: username,
-          password: hashedPassword,
-        },
-      });
-    }
-    console.log("User exist!");
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return await prisma.user.create({
+      data: {
+        username: username,
+        password: hashedPassword,
+      },
+    });
   } catch (error) {
     console.log("Error creating user", error);
     throw error;

@@ -1,5 +1,7 @@
 const passport = require("passport");
 const db = require("../db/queries");
+const validators = require("../utils/validators");
+const { validationResult } = require("express-validator");
 
 const indexGet = (req, res) => {
   res.render("index");
@@ -9,15 +11,17 @@ const signUpGet = (req, res) => {
   res.render("forms/sign-up-form");
 };
 
-const signUpPost = async (req, res) => {
-  const { username, password1, password2 } = req.body;
-  try {
-    if (password1 !== password2) {
-      // i can add in error message here in partials/error then include it in all views & pass it as message
-      console.log("Passwords do not match. ");
-      return res.redirect("/signup");
-    }
+const signUpPost = [
+  validators.validateSignUp,
+  async (req, res) => {
+    const errors = validationResult(req);
 
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .render("forms/sign-up-form", { errors: errors.array() });
+    }
+    const { username, password1, password2 } = req.body;
     const user = await db.addUser(username, password1);
 
     if (user) {
@@ -26,11 +30,8 @@ const signUpPost = async (req, res) => {
       console.log("User creation failed");
       res.redirect("/signup");
     }
-  } catch (error) {
-    console.log(error);
-    res.redirect("/signup");
-  }
-};
+  },
+];
 
 const logInGet = (req, res) => {
   res.render("forms/log-in-form");
@@ -60,7 +61,7 @@ const logOutGet = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/login");
+    res.redirect("/");
   });
 };
 
