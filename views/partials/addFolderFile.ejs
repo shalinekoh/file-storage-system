@@ -1,0 +1,49 @@
+<button id="openFileDialog">Upload File</button>
+<dialog id="fileDialog">
+  <form
+    action="/dashboard/<%= folderId %>/upload"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <h1>Upload your file</h1>
+    <input type="file" name="file" required />
+    <button id="fileCancelBtn">Cancel</button>
+    <button type="submit">Upload</button>
+  </form>
+</dialog>
+
+<button id="openFolderDialog">Create Folder</button>
+<dialog id="folderDialog">
+  <form action="/dashboard/<%= folderId %>/createFolder" method="post">
+    <h1>Create folder</h1>
+    <input type="text" name="folderName" placeholder="Folder's name" required />
+    <button id="folderCancelBtn">Cancel</button>
+    <button type="submit">Create Folder</button>
+  </form>
+</dialog>
+
+<script>
+  const fileBtn = document.getElementById("openFileDialog");
+  const fileDialog = document.getElementById("fileDialog");
+  const fileCancelBtn = document.getElementById("fileCancelBtn");
+
+  const folderBtn = document.getElementById("openFolderDialog");
+  const folderDialog = document.getElementById("folderDialog");
+  const folderCancelBtn = document.getElementById("folderCancelBtn");
+
+  fileBtn.addEventListener("click", () => {
+    fileDialog.showModal();
+  });
+
+  fileCancelBtn.addEventListener("click", () => {
+    fileDialog.close();
+  });
+
+  folderBtn.addEventListener("click", () => {
+    folderDialog.showModal();
+  });
+
+  folderCancelBtn.addEventListener("click", () => {
+    folderDialog.close();
+  });
+</script>
