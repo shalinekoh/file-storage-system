@@ -44,17 +44,17 @@ router.post("/:folderId/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded");
   }
-  // res.redirect("/dashboard");
-  res.send("FILE UPLOADED");
+  const parentId = req.params.folderId;
+  res.redirect(`/dashboard/${parentId}`);
 });
 
-router.post("/:folderId/createFolder", (req, res) => {
-  const folderName = req.body.folder;
+router.post("/:folderId/createFolder", async (req, res) => {
+  const folderName = req.body.folderName;
   const userId = req.user.id;
   const parentId = req.params.folderId;
 
-  const newFolder = db.createFolder(folderName, userId, parentId);
-  console.log(newFolder);
+  await db.createFolder(folderName, userId, parentId);
+  res.redirect(`/dashboard/${parentId}`);
 });
 
 module.exports = router;

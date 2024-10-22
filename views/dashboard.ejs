@@ -8,7 +8,7 @@
     <button id="openFileDialog">Upload File</button>
     <dialog id="fileDialog">
       <form
-        action="/dashboard/upload"
+        action="/dashboard/<%= folderId %>/upload"
         method="post"
         enctype="multipart/form-data"
       >
@@ -23,7 +23,12 @@
     <dialog id="folderDialog">
       <form action="/dashboard/<%= folderId %>/createFolder" method="post">
         <h1>Create folder</h1>
-        <input type="text" name="folder" placeholder="Folder's name" required />
+        <input
+          type="text"
+          name="folderName"
+          placeholder="Folder's name"
+          required
+        />
         <button id="folderCancelBtn">Cancel</button>
         <button type="submit">Create Folder</button>
       </form>

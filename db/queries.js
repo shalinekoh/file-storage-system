@@ -43,11 +43,11 @@ const addUser = async (username, password) => {
   }
 };
 
-const createFolder = async (name, userId, parentId) => {
+const createFolder = async (folderName, userId, parentId) => {
   try {
     const folder = await prisma.folder.create({
       data: {
-        name: name,
+        name: folderName,
         userId: userId,
         parentId: parentId,
       },
