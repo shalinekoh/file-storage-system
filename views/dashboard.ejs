@@ -26,11 +26,51 @@
         <a href="/dashboard/<%=subfolder.id%>"><%=subfolder.name%></a>
         <p><%=subfolder.updatedAt.toString().split("GMT")[0].trim();%></p>
         <p>-</p>
+        <button
+          type="button"
+          class="editButtons"
+          data-current-name="<%=subfolder.name%>"
+        >
+          Rename
+        </button>
+        <dialog>
+          <form method="POST" action="/dashboard/<%=subfolder.id%>/update">
+            <h1>Rename folder</h1>
+            <input type="text" required name="updatedFolderName" />
+            <button type="button" class="closeButtons">Cancel</button>
+            <button type="submit">Enter</button>
+          </form>
+        </dialog>
+        <a href="/dashboard/<%=subfolder.id%>/delete">Delete</a>
       </li>
       <% }) %>
     </ul>
     <% } else { %>
     <p>This folder is empty.</p>
     <% } %>
+
+    <script>
+      const editButtons = document.querySelectorAll(".editButtons");
+      const closeButtons = document.querySelectorAll(".closeButtons");
+
+      editButtons.forEach((editButton) => {
+        const dialog = editButton.nextElementSibling;
+        const folderName = editButton.getAttribute("data-current-name");
+        editButton.addEventListener("click", () => {
+          const nameInput = dialog.querySelector(
+            'input[name="updatedFolderName"]'
+          );
+          nameInput.value = folderName;
+          dialog.showModal();
+        });
+      });
+
+      closeButtons.forEach((closeButton) => {
+        const dialog = closeButton.closest("dialog");
+        closeButton.addEventListener("click", () => {
+          dialog.close();
+        });
+      });
+    </script>
   </body>
 </html>

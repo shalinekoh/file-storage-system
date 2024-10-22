@@ -89,6 +89,16 @@ const getAllFolders = async (userId, folderId) => {
   return folderData;
 };
 
+const updateFolder = async (folderId, newName) => {
+  const updatedFolder = await prisma.folder.update({
+    where: { id: folderId },
+    data: {
+      name: newName,
+    },
+  });
+  return updatedFolder.parentId;
+};
+
 module.exports = {
   findUserbyName,
   findUserbyID,
@@ -96,4 +106,5 @@ module.exports = {
   createFolder,
   getRootFolder,
   getAllFolders,
+  updateFolder,
 };
