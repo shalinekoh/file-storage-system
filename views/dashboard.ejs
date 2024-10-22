@@ -41,7 +41,17 @@
             <button type="submit">Enter</button>
           </form>
         </dialog>
-        <a href="/dashboard/<%=subfolder.id%>/delete">Delete</a>
+        <button type="button" class="deleteDialogButtons">Delete</button>
+        <dialog>
+          <form method="POST" action="/dashboard/<%=subfolder.id%>/delete">
+            <p>
+              Deleting this folder will delete all the subfolders and files it
+              contains. Do you want to proceed?
+            </p>
+            <button class="deleteCloseButtons" type="button">No</button>
+            <button type="submit">Yes</a>
+            </form>
+        </dialog>
       </li>
       <% }) %>
     </ul>
@@ -66,6 +76,28 @@
       });
 
       closeButtons.forEach((closeButton) => {
+        const dialog = closeButton.closest("dialog");
+        closeButton.addEventListener("click", () => {
+          dialog.close();
+        });
+      });
+
+      const deleteDialogButtons = document.querySelectorAll(
+        ".deleteDialogButtons"
+      );
+      const deleteCloseButtons = document.querySelectorAll(
+        ".deleteCloseButtons"
+      );
+
+      deleteDialogButtons.forEach((dialogButton) => {
+        const dialog = dialogButton.nextElementSibling;
+
+        dialogButton.addEventListener("click", () => {
+          dialog.showModal();
+        });
+      });
+
+      deleteCloseButtons.forEach((closeButton) => {
         const dialog = closeButton.closest("dialog");
         closeButton.addEventListener("click", () => {
           dialog.close();

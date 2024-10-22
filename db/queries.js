@@ -99,6 +99,32 @@ const updateFolder = async (folderId, newName) => {
   return updatedFolder.parentId;
 };
 
+const deleteFolder = async (folderId) => {
+  // delete all files in the current folder
+  await prisma.file.deleteMany({
+    where: {
+      folderId: folderId,
+    },
+  });
+  // fetch all subfolders in the current folder
+  const subcategories = await prisma.folder.findMany({
+    where: {
+      parentId: folderId,
+    },
+  });
+  // recursively delete all subfolders in the current folder
+  for (const subcategory of subcategories) {
+    await deleteFolder(subcategory.id);
+  }
+  // delete the current folder
+  const deletedFolder = await prisma.folder.delete({
+    where: {
+      id: folderId,
+    },
+  });
+  return deletedFolder.parentId;
+};
+
 module.exports = {
   findUserbyName,
   findUserbyID,
@@ -107,4 +133,5 @@ module.exports = {
   getRootFolder,
   getAllFolders,
   updateFolder,
+  deleteFolder,
 };
