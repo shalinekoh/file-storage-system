@@ -43,4 +43,42 @@ const addUser = async (username, password) => {
   }
 };
 
-module.exports = { findUserbyName, findUserbyID, addUser };
+const createFolder = async (name, userId, parentId) => {
+  try {
+    const folder = await prisma.folder.create({
+      data: {
+        name: name,
+        userId: userId,
+        parentId: parentId,
+      },
+    });
+    return folder;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getRootFolder = async (userId) => {
+  try {
+    const rootFolder = await prisma.folder.findFirst({
+      where: {
+        userId: userId,
+        parentId: null,
+      },
+    });
+    if (!rootFolder) {
+      const rootFolder = await createFolder("Root", userId, null);
+    }
+    return rootFolder.id;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = {
+  findUserbyName,
+  findUserbyID,
+  addUser,
+  createFolder,
+  getRootFolder,
+};
