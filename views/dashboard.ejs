@@ -4,7 +4,7 @@
     <title>Dashboard</title>
   </head>
   <body>
-    <h1>Dashboard</h1>
+    <h1>My Library</h1>
     <button id="openFileDialog">Upload File</button>
     <dialog id="fileDialog">
       <form
@@ -35,6 +35,31 @@
     </dialog>
     <!-- <a href="/dashboard/upload">Upload file</a> -->
     <a href="/logout">Log out</a>
+
+    <% if (subfolders.length > 0 || files.length > 0){ %>
+    <ul>
+      <% subfolders.forEach((subfolder) => { %>
+      <li>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+        >
+          <title>folder</title>
+          <path
+            d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"
+          />
+        </svg>
+        <a href="/dashboard/<%=subfolder.id%>"><%=subfolder.name%></a>
+        <p><%=subfolder.updatedAt.toString().split("GMT")[0].trim();%></p>
+        <p>-</p>
+      </li>
+      <% }) %>
+    </ul>
+    <% } else { %>
+    <p>This folder is empty.</p>
+    <% } %>
 
     <script>
       const fileBtn = document.getElementById("openFileDialog");

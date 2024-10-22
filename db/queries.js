@@ -75,10 +75,25 @@ const getRootFolder = async (userId) => {
   }
 };
 
+const getAllFolders = async (userId, folderId) => {
+  const folderData = await prisma.folder.findUnique({
+    where: {
+      userId: userId,
+      id: folderId,
+    },
+    include: {
+      subFolders: true,
+      files: true,
+    },
+  });
+  return folderData;
+};
+
 module.exports = {
   findUserbyName,
   findUserbyID,
   addUser,
   createFolder,
   getRootFolder,
+  getAllFolders,
 };

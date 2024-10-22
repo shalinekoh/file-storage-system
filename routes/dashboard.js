@@ -34,10 +34,17 @@ router.get("/", async (req, res) => {
   res.redirect(`/dashboard/${rootFolderId}`);
 });
 
-router.get("/:folderId", (req, res) => {
+router.get("/:folderId", async (req, res) => {
   // display all folders/files
   const folderId = req.params.folderId;
-  res.render("dashboard", { folderId: folderId });
+  const userId = req.user.id;
+  const folderData = await db.getAllFolders(userId, folderId);
+  const { subFolders, files } = folderData;
+  res.render("dashboard", {
+    folderId: folderId,
+    subfolders: subFolders,
+    files: files,
+  });
 });
 
 router.post("/:folderId/upload", upload.single("file"), (req, res) => {
