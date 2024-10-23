@@ -141,6 +141,23 @@ const addFile = async (originalname, url, size, folderId) => {
   }
 };
 
+const updateFile = async (fileId, newName) => {
+  const updatedFile = await prisma.file.update({
+    where: { id: fileId },
+    data: {
+      name: newName,
+    },
+  });
+  return updatedFile.folderId;
+};
+
+const deleteFile = async (fileId) => {
+  const deletedFile = await prisma.file.delete({
+    where: { id: fileId },
+  });
+  return deletedFile.folderId;
+};
+
 module.exports = {
   findUserbyName,
   findUserbyID,
@@ -151,4 +168,6 @@ module.exports = {
   updateFolder,
   deleteFolder,
   addFile,
+  updateFile,
+  deleteFile,
 };
