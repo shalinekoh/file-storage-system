@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 const db = require("../db/queries");
+const cloudinary = require("../utils/cloudinary.config");
 
 const router = Router();
 
@@ -47,12 +48,27 @@ router.get("/:folderId", async (req, res) => {
   });
 });
 
-router.post("/:folderId/upload", upload.single("file"), (req, res) => {
+router.post("/:folderId/upload", upload.single("file"), async (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded");
   }
   const parentId = req.params.folderId;
-  res.redirect(`/dashboard/${parentId}`);
+  const { originalname, size, path } = req.file;
+  try {
+    const uploadResult = await cloudinary.uploader.upload(path, {
+      resource_type: "auto",
+    });
+
+    console.log(uploadResult);
+    await db.addFile(originalname, uploadResult.secure_url, size, parentId);
+
+    fs.unlinkSync(path);
+
+    res.redirect(`/dashboard/${parentId}`);
+  } catch (error) {
+    console.error("File upload error:", error);
+    res.status(500).send("File upload failed. Please try again.");
+  }
 });
 
 router.post("/:folderId/createFolder", async (req, res) => {

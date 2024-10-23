@@ -49,9 +49,26 @@
               contains. Do you want to proceed?
             </p>
             <button class="deleteCloseButtons" type="button">No</button>
-            <button type="submit">Yes</a>
-            </form>
+            <button type="submit">Yes</button>
+          </form>
         </dialog>
+      </li>
+      <% }) %> <% files.forEach((file) => { %>
+      <li>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+        >
+          <title>file</title>
+          <path
+            d="M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6Z"
+          />
+        </svg>
+        <p><%=file.name%></p>
+        <p><%=file.updatedAt.toString().split("GMT")[0].trim();%></p>
+        <p><%= (file.size / 1048576).toFixed(2) %> MB</p>
       </li>
       <% }) %>
     </ul>

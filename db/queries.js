@@ -60,14 +60,14 @@ const createFolder = async (folderName, userId, parentId) => {
 
 const getRootFolder = async (userId) => {
   try {
-    const rootFolder = await prisma.folder.findFirst({
+    let rootFolder = await prisma.folder.findFirst({
       where: {
         userId: userId,
         parentId: null,
       },
     });
     if (!rootFolder) {
-      const rootFolder = await createFolder("Root", userId, null);
+      rootFolder = await createFolder("Root", userId, null);
     }
     return rootFolder.id;
   } catch (error) {
@@ -125,6 +125,22 @@ const deleteFolder = async (folderId) => {
   return deletedFolder.parentId;
 };
 
+const addFile = async (originalname, url, size, folderId) => {
+  try {
+    return await prisma.file.create({
+      data: {
+        name: originalname,
+        url: url,
+        size: size,
+        folderId: folderId,
+      },
+    });
+  } catch (error) {
+    console.error("error", error);
+    throw error;
+  }
+};
+
 module.exports = {
   findUserbyName,
   findUserbyID,
@@ -134,4 +150,5 @@ module.exports = {
   getAllFolders,
   updateFolder,
   deleteFolder,
+  addFile,
 };
