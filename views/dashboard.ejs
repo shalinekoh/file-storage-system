@@ -12,17 +12,7 @@
     <ul>
       <% subfolders.forEach((subfolder) => { %>
       <li>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="16"
-          height="16"
-        >
-          <title>folder</title>
-          <path
-            d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"
-          />
-        </svg>
+        <%- include('partials/icons', { type: 'folder' }) %>
         <a href="/dashboard/<%=subfolder.id%>"><%=subfolder.name%></a>
         <p><%=subfolder.updatedAt.toString().split("GMT")[0].trim();%></p>
         <p>-</p>
@@ -55,17 +45,7 @@
       </li>
       <% }) %> <% files.forEach((file) => { %>
       <li>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="16"
-          height="16"
-        >
-          <title>file</title>
-          <path
-            d="M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6Z"
-          />
-        </svg>
+        <%- include('partials/icons', { type: 'file' }) %>
         <p><%=file.name%></p>
         <p><%=file.updatedAt.toString().split("GMT")[0].trim();%></p>
         <p><%= (file.size / 1048576).toFixed(2) %> MB</p>
@@ -77,49 +57,33 @@
     <% } %>
 
     <script>
-      const editButtons = document.querySelectorAll(".editButtons");
-      const closeButtons = document.querySelectorAll(".closeButtons");
+      function handleDialog(buttonSelector, closeSelector, inputName = null) {
+        const buttons = document.querySelectorAll(buttonSelector);
+        const closeButtons = document.querySelectorAll(closeSelector);
 
-      editButtons.forEach((editButton) => {
-        const dialog = editButton.nextElementSibling;
-        const folderName = editButton.getAttribute("data-current-name");
-        editButton.addEventListener("click", () => {
-          const nameInput = dialog.querySelector(
-            'input[name="updatedFolderName"]'
-          );
-          nameInput.value = folderName;
-          dialog.showModal();
+        buttons.forEach((button) => {
+          const dialog = button.nextElementSibling;
+
+          button.addEventListener("click", () => {
+            if (inputName) {
+              const input = dialog.querySelector(`input[name="${inputName}"]`);
+              input.value = button.getAttribute("data-current-name");
+            }
+            dialog.showModal();
+          });
         });
-      });
 
-      closeButtons.forEach((closeButton) => {
-        const dialog = closeButton.closest("dialog");
-        closeButton.addEventListener("click", () => {
-          dialog.close();
+        closeButtons.forEach((closeButton) => {
+          const dialog = closeButton.closest("dialog");
+          closeButton.addEventListener("click", () => {
+            dialog.close();
+          });
         });
-      });
+      }
 
-      const deleteDialogButtons = document.querySelectorAll(
-        ".deleteDialogButtons"
-      );
-      const deleteCloseButtons = document.querySelectorAll(
-        ".deleteCloseButtons"
-      );
-
-      deleteDialogButtons.forEach((dialogButton) => {
-        const dialog = dialogButton.nextElementSibling;
-
-        dialogButton.addEventListener("click", () => {
-          dialog.showModal();
-        });
-      });
-
-      deleteCloseButtons.forEach((closeButton) => {
-        const dialog = closeButton.closest("dialog");
-        closeButton.addEventListener("click", () => {
-          dialog.close();
-        });
-      });
+      // Handle edit and delete dialogs for subfolders
+      handleDialog(".editButtons", ".closeButtons", "updatedFolderName");
+      handleDialog(".deleteDialogButtons", ".deleteCloseButtons");
     </script>
   </body>
 </html>

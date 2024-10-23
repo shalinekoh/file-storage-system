@@ -84,6 +84,7 @@ router.post("/:folderId/update", async (req, res) => {
   const folderId = req.params.folderId;
   const newName = req.body.updatedFolderName;
   const parentId = await db.updateFolder(folderId, newName);
+  res.redirect(`/dashboard/${parentId}`);
 });
 
 router.post("/:folderId/delete", async (req, res) => {
