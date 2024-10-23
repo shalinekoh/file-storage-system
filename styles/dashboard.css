@@ -1,0 +1,151 @@
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header styles */
+header {
+  background-color: rgb(0, 60, 255);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+header a:hover {
+  background-color: rgb(44, 95, 189);
+}
+
+/* Folder and file list styles */
+.add-folder-file {
+  margin: 20px;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Use CSS Grid for list items */
+li {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  display: grid; /* Use grid layout */
+  grid-template-columns: 30px 1fr 300px 100px 100px 100px; /* Adjust these widths as needed */
+  align-items: center; /* Center items vertically */
+}
+
+/* Styles for icons (assuming you have an icon in the first column) */
+li .icon {
+  display: flex;
+  justify-content: center; /* Center icon */
+}
+
+/* Paragraph styles for folder/file names */
+li p {
+  margin: 0;
+  text-align: left; /* Align text to the left */
+}
+
+/* Button styles */
+li button {
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 5px;
+}
+
+li button:hover {
+  background-color: #ec971f;
+}
+
+/* Dialog styles */
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+dialog h1 {
+  margin-top: 0;
+}
+
+dialog input[type="text"],
+dialog input[type="file"] {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+dialog button {
+  margin-right: 10px;
+}
+
+dialog button[type="submit"] {
+  background-color: #5bc0de;
+}
+
+dialog button[type="submit"]:hover {
+  background-color: #31b0d5;
+}
+
+/* Empty state */
+p {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+a {
+  font-size: 1.2rem;
+}
+
+/* Button styles for uploading files and creating folders */
+button#openFileDialog,
+button#openFolderDialog {
+  background-color: #5bc0de;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px;
+  display: inline-block;
+}
+
+button#openFileDialog:hover,
+button#openFolderDialog:hover {
+  background-color: #31b0d5;
+}
+
+button {
+  font-size: 1rem;
+}
