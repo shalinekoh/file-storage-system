@@ -57,6 +57,30 @@ const logInPost = (req, res, next) => {
   })(req, res, next);
 };
 
+const logInDemo = (req, res, next) => {
+  const demoUsername = "demo@example.com";
+  const demoPassword = process.env.DEMO_PASSWORD;
+
+  // Create a fake request body with the demo credentials
+  req.body.username = demoUsername;
+  req.body.password = demoPassword;
+
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect("/login");
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/dashboard");
+    });
+  })(req, res, next);
+};
+
 const logOutGet = (req, res, next) => {
   req.logOut((err) => {
     if (err) {
@@ -72,5 +96,6 @@ module.exports = {
   signUpPost,
   logInGet,
   logInPost,
+  logInDemo,
   logOutGet,
 };

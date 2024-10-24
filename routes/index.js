@@ -19,6 +19,8 @@ router.post("/signup", indexController.signUpPost);
 router.get("/login", redirectIfLoggedIn, indexController.logInGet);
 router.post("/login", indexController.logInPost);
 
+router.get("/login-demo", indexController.logInDemo);
+
 router.get("/logout", indexController.logOutGet);
 
 module.exports = router;
