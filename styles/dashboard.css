@@ -17,11 +17,11 @@ header {
   align-items: center;
 }
 
-header h1 {
+header .title {
   margin: 0;
 }
 
-header a {
+header .logoutButton {
   color: white;
   text-decoration: none;
   padding: 10px 15px;
