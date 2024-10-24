@@ -56,7 +56,9 @@
       <% }) %> <% files.forEach((file) => { %>
       <li>
         <%- include('partials/icons', { type: 'file' }) %>
-        <p><%=file.name%></p>
+        <p>
+          <a href="<%=file.url%>" download><%=file.name%></a>
+        </p>
         <p><%=file.updatedAt.toString().split("GMT")[0].trim();%></p>
         <p><%= (file.size / 1048576).toFixed(2) %> MB</p>
         <button

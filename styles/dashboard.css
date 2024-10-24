@@ -17,11 +17,11 @@ header {
   align-items: center;
 }
 
-header .title {
+header h1 {
   margin: 0;
 }
 
-header .logoutButton {
+header a {
   color: white;
   text-decoration: none;
   padding: 10px 15px;
@@ -126,6 +126,7 @@ p {
 
 a {
   font-size: 1.2rem;
+  text-decoration: none;
 }
 
 /* Button styles for uploading files and creating folders */
